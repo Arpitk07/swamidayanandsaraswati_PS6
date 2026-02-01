@@ -1,0 +1,82 @@
+{
+    "app": {
+        "title": "RoadAssist",
+        "subtitle": "काही सेकंदांत AI-चालित आणीबाणीची मदत",
+        "poweredBy": "प्रगत AI मॅचिंगद्वारे चालवले"
+    },
+    "landing": {
+        "emergencyBadge": "आणीबाणी प्रतिसाद प्रणाली",
+        "subtitle": "AI-चालित आणीबाणीची मदत",
+        "inSeconds": "सेकंदांत",
+        "citizen": {
+            "title": "मला मदत हवी आहे",
+            "description": "AI द्वारे चालवलेली त्वरित रस्त्याच्या कडेला मदत मिळवा",
+            "feature1": "त्वरित मेकॅनिक जुळणी",
+            "feature2": "लाइव्ह GPS ट्रॅकिंग",
+            "feature3": "रिअल-टाइम स्थिती अपडेट्स",
+            "button": "आणीबाणी मदतीची विनंती करा"
+        },
+        "mechanic": {
+            "title": "मी मेकॅनिक आहे",
+            "description": "नोकऱ्या व्यवस्थापित करा आणि आणीबाणीच्या वेळी लोकांना मदत करा",
+            "feature1": "नियुक्त केलेली कामे पहा",
+            "feature2": "थेट स्थान सामायिक करा",
+            "feature3": "कामाची स्थिती अपडेट करा",
+            "button": "डॅशबोर्ड ॲक्सेस करा"
+        },
+        "stats": {
+            "available": "उपलब्ध",
+            "response": "सरासरी प्रतिसाद",
+            "success": "यश दर"
+        }
+    },
+    "citizenView": {
+        "emergency": "आणीबाणी",
+        "subtitle": "आम्ही तुमच्यापर्यंत मदत पोहोचवू",
+        "immediately": "त्वरित",
+        "formTitle": "समस्या काय आहे?",
+        "placeholder": "उदा., हायवे फ्लायओव्हरजवळ गाडी बिघडली, इंजिन स्टार्ट होत नाही...",
+        "locationDetected": "स्थान आढळले",
+        "gettingLocation": "स्थान मिळवत आहे...",
+        "useCurrentPosition": "आम्ही तुमची सद्यस्थिती वापरू",
+        "submitButton": "आत्ताच मदत घ्या",
+        "findingMechanic": "जवळचा मेकॅनिक शोधत आहे...",
+        "trustIndicators": {
+            "response": "सरासरी 3 मिनिटे प्रतिसाद",
+            "secure": "सुरक्षित आणि खाजगी",
+            "available": "नेहमी उपलब्ध"
+        },
+        "tracking": {
+            "helpConfirmed": "मदत",
+            "confirmed": "पुष्टी",
+            "requestId": "विनंती ID:",
+            "yourMechanic": "तुमचा मेकॅनिक",
+            "yourRequest": "तुमची विनंती",
+            "liveTracking": "लाइव्ह ट्रॅकिंग सक्रिय",
+            "minAway": "मिनिटांवर",
+            "call": "कॉल करा"
+        }
+    },
+    "mechanicView": {
+        "currentJob": "सध्याचे काम",
+        "jobId": "काम ID:",
+        "problemReport": "समस्या अहवाल",
+        "citizen": "नागरिक",
+        "issue": "समस्या",
+        "distance": "अंतर",
+        "locationTracking": "स्थान ट्रॅकिंग सक्रिय",
+        "sharingLocation": "तुमचे स्थान ग्राहकासह सामायिक केले जात आहे",
+        "startNavigation": "नेव्हिगेशन सुरू करा आणि स्थान सामायिक करा",
+        "markArriving": "लवकरच पोहोचत आहोत म्हणून चिन्हांकित करा",
+        "markArrived": "पोहोचलो म्हणून चिन्हांकित करा",
+        "youArrived": "तुम्ही पोहोचला आहात!",
+        "contactCustomer": "सेवा पूर्ण करण्यासाठी ग्राहकाशी संपर्क साधा",
+        "openMaps": "नकाशांमध्ये उघडा"
+    },
+    "status": {
+        "assigned": "मेकॅनिक नियुक्त",
+        "onTheWay": "मार्गावर आहे",
+        "arriving": "लवकरच येत आहे",
+        "arrived": "पोहोचले"
+    }
+}

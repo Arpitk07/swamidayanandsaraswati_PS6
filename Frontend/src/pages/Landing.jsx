@@ -1,9 +1,12 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useEmergencyStore } from '../store/useEmergencyStore';
 import { Button } from '../components/Button';
+import { LanguageSwitcher } from '../components/LanguageSwitcher';
 
 export function Landing() {
+    const { t } = useTranslation();
     const { setRole } = useEmergencyStore();
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const { scrollY } = useScroll();
@@ -27,6 +30,11 @@ export function Landing() {
 
     return (
         <div className="relative min-h-screen overflow-hidden">
+            {/* Language Switcher - Fixed top right */}
+            <div className="fixed top-6 right-6 z-50">
+                <LanguageSwitcher />
+            </div>
+
             {/* Animated gradient background */}
             <div className="fixed inset-0 bg-gradient-to-br from-void via-void to-danger/10">
                 <motion.div
@@ -106,11 +114,11 @@ export function Landing() {
                                 🚨
                             </motion.span>
                             <span className="text-sm font-display font-semibold text-danger uppercase tracking-wider">
-                                Emergency Response System
+                                {t('landing.emergencyBadge')}
                             </span>
                         </motion.div>
 
-                        {/* Main title with stagger effect */}
+                        {/* Main title */}
                         <div className="relative">
                             <motion.h1
                                 className="font-display text-8xl md:text-9xl font-bold leading-none mb-6"
@@ -162,13 +170,13 @@ export function Landing() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 1, duration: 0.6 }}
                         >
-                            AI-powered emergency assistance
+                            {t('landing.subtitle')}{' '}
                             <motion.span
                                 className="text-warning ml-2"
                                 animate={{ opacity: [1, 0.5, 1] }}
                                 transition={{ duration: 2, repeat: Infinity }}
                             >
-                                in seconds
+                                {t('landing.inSeconds')}
                             </motion.span>
                         </motion.p>
                     </motion.div>
@@ -189,31 +197,18 @@ export function Landing() {
                                 className="relative group cursor-pointer h-full"
                                 onClick={() => setRole('citizen')}
                             >
-                                {/* Glow effect */}
                                 <motion.div
                                     className="absolute -inset-1 bg-gradient-to-r from-danger to-warning opacity-0 group-hover:opacity-75 blur-xl transition-opacity duration-500"
-                                    animate={{
-                                        opacity: [0, 0.3, 0],
-                                    }}
-                                    transition={{
-                                        duration: 3,
-                                        repeat: Infinity,
-                                    }}
+                                    animate={{ opacity: [0, 0.3, 0] }}
+                                    transition={{ duration: 3, repeat: Infinity }}
                                 />
 
                                 <div className="relative card p-10 h-full flex flex-col justify-between border-2 border-light/10 group-hover:border-danger transition-all duration-300">
-                                    {/* Icon with pulse */}
                                     <div className="mb-6">
                                         <motion.div
                                             className="text-8xl"
-                                            animate={{
-                                                scale: [1, 1.1, 1],
-                                            }}
-                                            transition={{
-                                                duration: 2,
-                                                repeat: Infinity,
-                                                repeatType: 'reverse'
-                                            }}
+                                            animate={{ scale: [1, 1.1, 1] }}
+                                            transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
                                         >
                                             🆘
                                         </motion.div>
@@ -221,19 +216,14 @@ export function Landing() {
 
                                     <div>
                                         <h2 className="font-display text-4xl font-bold text-light mb-4 group-hover:text-danger transition-colors">
-                                            I Need Help
+                                            {t('landing.citizen.title')}
                                         </h2>
                                         <p className="text-lg text-muted mb-6">
-                                            Get instant roadside assistance powered by AI
+                                            {t('landing.citizen.description')}
                                         </p>
 
-                                        {/* Features list */}
                                         <ul className="space-y-3 mb-8">
-                                            {[
-                                                { icon: '⚡', text: 'Instant mechanic matching' },
-                                                { icon: '📍', text: 'Live GPS tracking' },
-                                                { icon: '🔔', text: 'Real-time status updates' }
-                                            ].map((feature, i) => (
+                                            {['feature1', 'feature2', 'feature3'].map((key, i) => (
                                                 <motion.li
                                                     key={i}
                                                     className="flex items-center gap-3 text-light/80"
@@ -241,18 +231,17 @@ export function Landing() {
                                                     animate={{ opacity: 1, x: 0 }}
                                                     transition={{ delay: 1.4 + i * 0.1 }}
                                                 >
-                                                    <span className="text-2xl">{feature.icon}</span>
-                                                    <span>{feature.text}</span>
+                                                    <span className="text-2xl">
+                                                        {['⚡', '📍', '🔔'][i]}
+                                                    </span>
+                                                    <span>{t(`landing.citizen.${key}`)}</span>
                                                 </motion.li>
                                             ))}
                                         </ul>
                                     </div>
 
-                                    <Button
-                                        variant="primary"
-                                        className="w-full group-hover:shadow-2xl group-hover:shadow-danger/50"
-                                    >
-                                        Request Emergency Help →
+                                    <Button variant="primary" className="w-full">
+                                        {t('landing.citizen.button')} →
                                     </Button>
                                 </div>
                             </div>
@@ -269,31 +258,18 @@ export function Landing() {
                                 className="relative group cursor-pointer h-full"
                                 onClick={() => setRole('mechanic')}
                             >
-                                {/* Glow effect */}
                                 <motion.div
                                     className="absolute -inset-1 bg-gradient-to-r from-success to-light opacity-0 group-hover:opacity-75 blur-xl transition-opacity duration-500"
-                                    animate={{
-                                        opacity: [0, 0.3, 0],
-                                    }}
-                                    transition={{
-                                        duration: 3,
-                                        repeat: Infinity,
-                                        delay: 1.5
-                                    }}
+                                    animate={{ opacity: [0, 0.3, 0] }}
+                                    transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
                                 />
 
                                 <div className="relative card p-10 h-full flex flex-col justify-between border-2 border-light/10 group-hover:border-success transition-all duration-300">
-                                    {/* Icon with rotation */}
                                     <div className="mb-6">
                                         <motion.div
                                             className="text-8xl"
-                                            animate={{
-                                                rotate: [0, 5, -5, 0],
-                                            }}
-                                            transition={{
-                                                duration: 3,
-                                                repeat: Infinity,
-                                            }}
+                                            animate={{ rotate: [0, 5, -5, 0] }}
+                                            transition={{ duration: 3, repeat: Infinity }}
                                         >
                                             🔧
                                         </motion.div>
@@ -301,19 +277,14 @@ export function Landing() {
 
                                     <div>
                                         <h2 className="font-display text-4xl font-bold text-light mb-4 group-hover:text-success transition-colors">
-                                            I'm a Mechanic
+                                            {t('landing.mechanic.title')}
                                         </h2>
                                         <p className="text-lg text-muted mb-6">
-                                            Manage jobs and help people in emergencies
+                                            {t('landing.mechanic.description')}
                                         </p>
 
-                                        {/* Features list */}
                                         <ul className="space-y-3 mb-8">
-                                            {[
-                                                { icon: '📋', text: 'View assigned jobs' },
-                                                { icon: '🗺️', text: 'Share live location' },
-                                                { icon: '✅', text: 'Update job status' }
-                                            ].map((feature, i) => (
+                                            {['feature1', 'feature2', 'feature3'].map((key, i) => (
                                                 <motion.li
                                                     key={i}
                                                     className="flex items-center gap-3 text-light/80"
@@ -321,8 +292,10 @@ export function Landing() {
                                                     animate={{ opacity: 1, x: 0 }}
                                                     transition={{ delay: 1.6 + i * 0.1 }}
                                                 >
-                                                    <span className="text-2xl">{feature.icon}</span>
-                                                    <span>{feature.text}</span>
+                                                    <span className="text-2xl">
+                                                        {['📋', '🗺️', '✅'][i]}
+                                                    </span>
+                                                    <span>{t(`landing.mechanic.${key}`)}</span>
                                                 </motion.li>
                                             ))}
                                         </ul>
@@ -330,9 +303,9 @@ export function Landing() {
 
                                     <Button
                                         variant="secondary"
-                                        className="w-full group-hover:bg-success group-hover:text-void group-hover:border-success group-hover:shadow-2xl group-hover:shadow-success/50"
+                                        className="w-full group-hover:bg-success group-hover:text-void group-hover:border-success"
                                     >
-                                        Access Dashboard →
+                                        {t('landing.mechanic.button')} →
                                     </Button>
                                 </div>
                             </div>
@@ -347,9 +320,9 @@ export function Landing() {
                         transition={{ delay: 1.8 }}
                     >
                         {[
-                            { value: '24/7', label: 'Available' },
-                            { value: '<5min', label: 'Avg Response' },
-                            { value: '99%', label: 'Success Rate' }
+                            { value: '24/7', key: 'available' },
+                            { value: '<5min', key: 'response' },
+                            { value: '99%', key: 'success' }
                         ].map((stat, i) => (
                             <motion.div
                                 key={i}
@@ -358,19 +331,13 @@ export function Landing() {
                             >
                                 <motion.div
                                     className="font-display text-4xl font-bold text-danger mb-2"
-                                    animate={{
-                                        scale: [1, 1.05, 1],
-                                    }}
-                                    transition={{
-                                        duration: 2,
-                                        repeat: Infinity,
-                                        delay: i * 0.3
-                                    }}
+                                    animate={{ scale: [1, 1.05, 1] }}
+                                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
                                 >
                                     {stat.value}
                                 </motion.div>
                                 <div className="text-sm text-muted uppercase tracking-wider">
-                                    {stat.label}
+                                    {t(`landing.stats.${stat.key}`)}
                                 </div>
                             </motion.div>
                         ))}
@@ -390,7 +357,7 @@ export function Landing() {
                             >
                                 🤖
                             </motion.span>
-                            <span>Powered by Advanced AI Matching</span>
+                            <span>{t('app.poweredBy')}</span>
                         </div>
                     </motion.div>
                 </div>

@@ -1,0 +1,82 @@
+{
+    "app": {
+        "title": "RoadAssist",
+        "subtitle": "AI-powered emergency assistance in seconds",
+        "poweredBy": "Powered by Advanced AI Matching"
+    },
+    "landing": {
+        "emergencyBadge": "Emergency Response System",
+        "subtitle": "AI-powered emergency assistance",
+        "inSeconds": "in seconds",
+        "citizen": {
+            "title": "I Need Help",
+            "description": "Get instant roadside assistance powered by AI",
+            "feature1": "Instant mechanic matching",
+            "feature2": "Live GPS tracking",
+            "feature3": "Real-time status updates",
+            "button": "Request Emergency Help"
+        },
+        "mechanic": {
+            "title": "I'm a Mechanic",
+            "description": "Manage jobs and help people in emergencies",
+            "feature1": "View assigned jobs",
+            "feature2": "Share live location",
+            "feature3": "Update job status",
+            "button": "Access Dashboard"
+        },
+        "stats": {
+            "available": "Available",
+            "response": "Avg Response",
+            "success": "Success Rate"
+        }
+    },
+    "citizenView": {
+        "emergency": "Emergency",
+        "subtitle": "We'll get help to you",
+        "immediately": "immediately",
+        "formTitle": "What's the problem?",
+        "placeholder": "e.g., Car broke down near highway flyover, engine won't start...",
+        "locationDetected": "Location Detected",
+        "gettingLocation": "Getting Location...",
+        "useCurrentPosition": "We'll use your current position",
+        "submitButton": "Get Help Now",
+        "findingMechanic": "Finding nearest mechanic...",
+        "trustIndicators": {
+            "response": "Avg 3min response",
+            "secure": "Secure & Private",
+            "available": "Always Available"
+        },
+        "tracking": {
+            "helpConfirmed": "Help is",
+            "confirmed": "confirmed",
+            "requestId": "Request ID:",
+            "yourMechanic": "Your Mechanic",
+            "yourRequest": "Your Request",
+            "liveTracking": "Live tracking active",
+            "minAway": "min away",
+            "call": "Call"
+        }
+    },
+    "mechanicView": {
+        "currentJob": "Current Job",
+        "jobId": "Job ID:",
+        "problemReport": "Problem Report",
+        "citizen": "Citizen",
+        "issue": "Issue",
+        "distance": "Distance",
+        "locationTracking": "Location Tracking Active",
+        "sharingLocation": "Your location is being shared with the customer",
+        "startNavigation": "Start Navigation & Share Location",
+        "markArriving": "Mark as Arriving Soon",
+        "markArrived": "Mark as Arrived",
+        "youArrived": "You've arrived!",
+        "contactCustomer": "Contact the customer to complete service",
+        "openMaps": "Open in Maps"
+    },
+    "status": {
+        "assigned": "Mechanic Assigned",
+        "onTheWay": "On the Way",
+        "arriving": "Arriving Soon",
+        "arrived": "Arrived"
+    }
+}
