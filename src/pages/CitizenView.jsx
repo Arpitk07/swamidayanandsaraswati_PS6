@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { useEmergencyStore } from '../store/useEmergencyStore';
 import { api } from '../services/api';
 import { socketService } from '../services/websocket';
@@ -13,6 +13,8 @@ export function CitizenView() {
     const [requestText, setRequestText] = useState('');
     const [loading, setLoading] = useState(false);
     const [location, setLocation] = useState(null);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const controls = useAnimation();
 
     const {
         currentRequest,
@@ -35,6 +37,18 @@ export function CitizenView() {
             return () => socketService.disconnect();
         }
     }, [currentRequest]);
+
+    // Success animation
+    useEffect(() => {
+        if (currentRequest && !showSuccess) {
+            setShowSuccess(true);
+            controls.start({
+                scale: [1, 1.2, 1],
+                rotate: [0, 10, -10, 0],
+                transition: { duration: 0.8 }
+            });
+        }
+    }, [currentRequest, showSuccess, controls]);
 
     const handleSubmitRequest = async (e) => {
         e.preventDefault();
@@ -66,71 +80,184 @@ export function CitizenView() {
     // Requesting help view
     if (!currentRequest) {
         return (
-            <div className="min-h-screen flex items-center justify-center px-4">
+            <div className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
+                {/* Animated background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-void via-void to-danger/5">
+                    <motion.div
+                        className="absolute inset-0"
+                        animate={{
+                            background: [
+                                'radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.1) 0%, transparent 40%)',
+                                'radial-gradient(circle at 80% 50%, rgba(239, 68, 68, 0.1) 0%, transparent 40%)',
+                                'radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.1) 0%, transparent 40%)'
+                            ]
+                        }}
+                        transition={{ duration: 8, repeat: Infinity }}
+                    />
+                </div>
+
                 <motion.div
-                    className="w-full max-w-md"
+                    className="relative z-10 w-full max-w-2xl"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ type: 'spring' }}
+                    transition={{ type: 'spring', stiffness: 200 }}
                 >
                     {/* Hero section */}
-                    <div className="text-center mb-8">
+                    <div className="text-center mb-12">
+                        <motion.div
+                            className="inline-block mb-6"
+                            animate={{
+                                rotate: [0, 5, -5, 0],
+                                scale: [1, 1.1, 1]
+                            }}
+                            transition={{
+                                duration: 3,
+                                repeat: Infinity,
+                                ease: 'easeInOut'
+                            }}
+                        >
+                            <span className="text-8xl">🚨</span>
+                        </motion.div>
+
                         <motion.h1
-                            className="font-display text-6xl font-bold text-danger mb-4"
+                            className="font-display text-7xl font-bold text-danger mb-4"
                             initial={{ y: -50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.2 }}
+                            transition={{ delay: 0.2, type: 'spring' }}
                         >
                             Emergency
                         </motion.h1>
+
+                        <motion.div
+                            className="h-1 w-32 bg-gradient-to-r from-danger via-warning to-danger mx-auto mb-6"
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            transition={{ delay: 0.4 }}
+                        />
+
                         <motion.p
-                            className="text-lg text-muted"
+                            className="text-2xl text-light/70"
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.3 }}
                         >
-                            We'll get help to you fast
+                            We'll get help to you{' '}
+                            <span className="text-warning font-semibold">immediately</span>
                         </motion.p>
                     </div>
 
                     {/* Request form */}
-                    <Card>
+                    <Card delay={0.4}>
                         <form onSubmit={handleSubmitRequest} className="space-y-6">
+                            {/* Problem input */}
                             <div>
-                                <label
+                                <motion.label
                                     htmlFor="problem"
-                                    className="block text-sm font-display font-semibold text-light mb-2"
+                                    className="block text-sm font-display font-semibold text-light mb-3 flex items-center gap-2"
+                                    initial={{ x: -20, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: 0.5 }}
                                 >
+                                    <span className="text-xl">📝</span>
                                     What's the problem?
-                                </label>
-                                <textarea
-                                    id="problem"
-                                    className="w-full bg-void border-xs border-light/30 text-light px-4 py-3 focus:border-danger focus:outline-none transition-colors resize-none"
-                                    rows="4"
-                                    placeholder="e.g., Car broke down near flyover, flat tire..."
-                                    value={requestText}
-                                    onChange={(e) => setRequestText(e.target.value)}
-                                    required
-                                />
+                                </motion.label>
+
+                                <motion.div
+                                    initial={{ y: 20, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: 0.6 }}
+                                >
+                                    <textarea
+                                        id="problem"
+                                        className="w-full bg-void border-2 border-light/20 text-light px-5 py-4 focus:border-danger focus:outline-none focus:ring-2 focus:ring-danger/20 transition-all resize-none font-body"
+                                        rows="4"
+                                        placeholder="e.g., Car broke down near highway flyover, engine won't start..."
+                                        value={requestText}
+                                        onChange={(e) => setRequestText(e.target.value)}
+                                        required
+                                    />
+                                </motion.div>
                             </div>
 
-                            <div className="flex items-center gap-3 text-sm text-muted">
-                                <span className="text-xl">📍</span>
-                                <span>
-                                    {location
-                                        ? 'Location detected'
-                                        : 'Using default location...'}
-                                </span>
-                            </div>
-
-                            <Button
-                                type="submit"
-                                variant="primary"
-                                loading={loading}
-                                className="w-full"
+                            {/* Location indicator */}
+                            <motion.div
+                                className="flex items-center gap-3 px-4 py-3 bg-success/10 border border-success/20"
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                transition={{ delay: 0.7 }}
                             >
-                                {loading ? 'Requesting Help...' : 'Get Help Now'}
-                            </Button>
+                                <motion.span
+                                    className="text-2xl"
+                                    animate={{ scale: [1, 1.2, 1] }}
+                                    transition={{ duration: 2, repeat: Infinity }}
+                                >
+                                    📍
+                                </motion.span>
+                                <div className="flex-1">
+                                    <div className="text-sm font-semibold text-success">
+                                        {location ? 'Location Detected' : 'Getting Location...'}
+                                    </div>
+                                    <div className="text-xs text-light/60">
+                                        {location
+                                            ? `${location.lat.toFixed(4)}, ${location.lon.toFixed(4)}`
+                                            : 'We\'ll use your current position'}
+                                    </div>
+                                </div>
+                                {location && (
+                                    <motion.span
+                                        className="text-success"
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{ type: 'spring' }}
+                                    >
+                                        ✓
+                                    </motion.span>
+                                )}
+                            </motion.div>
+
+                            {/* Submit button */}
+                            <motion.div
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.8 }}
+                            >
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    loading={loading}
+                                    className="w-full text-lg py-5"
+                                >
+                                    {loading ? 'Finding nearest mechanic...' : (
+                                        <>
+                                            <span>🚑</span>
+                                            <span>Get Help Now</span>
+                                        </>
+                                    )}
+                                </Button>
+                            </motion.div>
+
+                            {/* Trust indicators */}
+                            <motion.div
+                                className="flex items-center justify-center gap-6 text-xs text-muted pt-4"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 1 }}
+                            >
+                                {[
+                                    { icon: '⚡', text: 'Avg 3min response' },
+                                    { icon: '🔒', text: 'Secure & Private' },
+                                    { icon: '24/7', text: 'Always Available' }
+                                ].map((item, i) => (
+                                    <motion.div
+                                        key={i}
+                                        className="flex items-center gap-1"
+                                        whileHover={{ scale: 1.1, color: '#F97316' }}
+                                    >
+                                        <span>{item.icon}</span>
+                                        <span>{item.text}</span>
+                                    </motion.div>
+                                ))}
+                            </motion.div>
                         </form>
                     </Card>
                 </motion.div>
@@ -140,76 +267,177 @@ export function CitizenView() {
 
     // Tracking view
     return (
-        <div className="min-h-screen px-4 py-8">
-            <div className="max-w-2xl mx-auto">
-                {/* Header */}
+        <div className="min-h-screen px-4 py-8 relative overflow-hidden">
+            {/* Background animation */}
+            <div className="fixed inset-0 pointer-events-none">
+                <motion.div
+                    className="absolute inset-0 bg-gradient-to-br from-success/5 via-transparent to-danger/5"
+                    animate={{
+                        opacity: [0.3, 0.6, 0.3],
+                    }}
+                    transition={{ duration: 4, repeat: Infinity }}
+                />
+            </div>
+
+            <div className="relative z-10 max-w-3xl mx-auto">
+                {/* Header with success animation */}
                 <motion.div
                     className="text-center mb-8"
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: -30 }}
+                    animate={controls}
                 >
-                    <h1 className="font-display text-4xl font-bold text-light mb-2">
-                        Help is on the way
+                    <motion.div
+                        className="inline-block mb-4"
+                        animate={{
+                            scale: [1, 1.2, 1],
+                        }}
+                        transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                        }}
+                    >
+                        <span className="text-6xl">✅</span>
+                    </motion.div>
+
+                    <h1 className="font-display text-5xl font-bold text-light mb-2">
+                        Help is{' '}
+                        <motion.span
+                            className="text-success"
+                            animate={{ opacity: [1, 0.7, 1] }}
+                            transition={{ duration: 1.5, repeat: Infinity }}
+                        >
+                            confirmed
+                        </motion.span>
                     </h1>
-                    <p className="text-muted">Request ID: {currentRequest.request_id}</p>
+
+                    <motion.p
+                        className="text-muted text-sm"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3 }}
+                    >
+                        Request ID:{' '}
+                        <span className="font-mono text-light">{currentRequest.request_id}</span>
+                    </motion.p>
                 </motion.div>
 
-                {/* Status badge */}
-                <div className="flex justify-center mb-8">
-                    <StatusBadge status={requestStatus} />
-                </div>
+                {/* Status badge with pulse */}
+                <motion.div
+                    className="flex justify-center mb-10"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', delay: 0.2 }}
+                >
+                    <AnimatePresence mode="wait">
+                        <StatusBadge status={requestStatus} />
+                    </AnimatePresence>
+                </motion.div>
 
-                {/* Location tracker */}
-                <div className="flex justify-center mb-12">
+                {/* Location tracker with enhanced animation */}
+                <motion.div
+                    className="flex justify-center mb-12"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.4, type: 'spring' }}
+                >
                     <LocationTracker
                         distance={distance}
                         eta={eta}
                         mechanicName={assignedMechanic?.name}
                     />
-                </div>
+                </motion.div>
 
-                {/* Mechanic details */}
+                {/* Mechanic details with stagger */}
                 {assignedMechanic && (
-                    <Card className="mb-6">
-                        <h3 className="font-display text-xl font-semibold text-light mb-4">
+                    <Card delay={0.5} className="mb-6">
+                        <h3 className="font-display text-2xl font-bold text-light mb-6 flex items-center gap-2">
+                            <span>👨‍🔧</span>
                             Your Mechanic
                         </h3>
-                        <div className="flex items-center gap-4">
-                            <div className="text-5xl">{assignedMechanic.avatar}</div>
-                            <div className="flex-1">
-                                <p className="font-display font-semibold text-light text-lg">
+
+                        <div className="flex items-center gap-6">
+                            <motion.div
+                                className="text-7xl"
+                                animate={{
+                                    rotate: [0, 5, -5, 0],
+                                }}
+                                transition={{
+                                    duration: 3,
+                                    repeat: Infinity,
+                                }}
+                            >
+                                {assignedMechanic.avatar}
+                            </motion.div>
+
+                            <div className="flex-1 space-y-2">
+                                <p className="font-display font-bold text-light text-2xl">
                                     {assignedMechanic.name}
                                 </p>
-                                <p className="text-sm text-muted">
+                                <p className="text-muted flex items-center gap-2">
+                                    <span>🔧</span>
                                     {assignedMechanic.specialization}
                                 </p>
-                                <p className="text-sm text-muted">
+                                <p className="text-muted flex items-center gap-2">
+                                    <span>🚗</span>
                                     {assignedMechanic.vehicle}
                                 </p>
-                                <div className="flex items-center gap-1 mt-2">
-                                    <span className="text-warning">⭐</span>
-                                    <span className="text-sm font-semibold text-light">
+                                <motion.div
+                                    className="flex items-center gap-2 mt-3"
+                                    whileHover={{ scale: 1.05 }}
+                                >
+                                    <span className="text-warning text-xl">⭐</span>
+                                    <span className="text-lg font-bold text-warning">
                                         {assignedMechanic.rating}
                                     </span>
-                                </div>
+                                    <span className="text-xs text-muted">/ 5.0</span>
+                                </motion.div>
                             </div>
-                            <a
+
+                            <motion.a
                                 href={`tel:${assignedMechanic.phone}`}
-                                className="btn-primary px-4 py-2"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                             >
-                                📞 Call
-                            </a>
+                                <Button variant="primary" className="px-6 py-3">
+                                    <span>📞</span>
+                                    <span>Call</span>
+                                </Button>
+                            </motion.a>
                         </div>
                     </Card>
                 )}
 
                 {/* Problem description */}
-                <Card>
-                    <h3 className="font-display text-lg font-semibold text-light mb-2">
+                <Card delay={0.6}>
+                    <h3 className="font-display text-lg font-semibold text-light mb-3 flex items-center gap-2">
+                        <span>📋</span>
                         Your Request
                     </h3>
-                    <p className="text-muted">{currentRequest.text}</p>
+                    <p className="text-light/80 leading-relaxed">{currentRequest.text}</p>
                 </Card>
+
+                {/* Live updates indicator */}
+                <motion.div
+                    className="mt-8 text-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                >
+                    <div className="inline-flex items-center gap-2 text-sm text-muted">
+                        <motion.span
+                            className="w-2 h-2 bg-success rounded-full"
+                            animate={{
+                                scale: [1, 1.5, 1],
+                                opacity: [1, 0.5, 1],
+                            }}
+                            transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                            }}
+                        />
+                        <span>Live tracking active</span>
+                    </div>
+                </motion.div>
             </div>
         </div>
     );
