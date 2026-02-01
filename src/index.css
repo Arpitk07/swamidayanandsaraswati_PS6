@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Styles */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-body text-light bg-void;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture overlay for depth */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.03;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E");
+    z-index: 9999;
+  }
+}
+
+/* Component Utilities */
+@layer components {
+
+  /* Sharp button with spring animation */
+  .btn-primary {
+    @apply bg-danger text-light font-display font-semibold px-6 py-3 border border-danger;
+    @apply transition-all duration-200 active:scale-95;
+    @apply hover:shadow-lg hover:shadow-danger/50;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent text-light font-display font-semibold px-6 py-3 border border-light;
+    @apply transition-all duration-200 active:scale-95;
+    @apply hover:bg-light hover:text-void;
+  }
+
+  /* Asymmetric card */
+  .card {
+    @apply bg-void/80 border border-light/20 p-6;
+    @apply backdrop-blur-sm;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Status badges */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 text-xs font-display font-semibold;
+    @apply border uppercase tracking-wider;
+  }
+
+  .badge-assigned {
+    @apply bg-warning/20 text-warning border-warning;
+  }
+
+  .badge-on-way {
+    @apply bg-success/20 text-success border-success;
+  }
+
+  .badge-arrived {
+    @apply bg-light/20 text-light border-light;
+  }
+}
+
+/* Utility Patterns */
+@layer utilities {
+
+  /* GPU-accelerated animations only */
+  .will-transform {
+    will-change: transform;
+  }
+
+  .will-opacity {
+    will-change: opacity;
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Sharp geometric shapes */
+  .clip-diagonal {
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  }
+
+  .clip-hex {
+    clip-path: polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #EF4444;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #DC2626;
+}
+
+/* Selection styling */
+::selection {
+  background: #EF4444;
+  color: #FAFAFA;
+}
+
+::-moz-selection {
+  background: #EF4444;
+  color: #FAFAFA;
+}
